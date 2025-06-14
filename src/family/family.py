@@ -18,9 +18,19 @@ class Family(Generic[T_Character]):
         self._parents = parents or []
         self._children = children or []
 
-        self._register_relationships()
+        self.register_relationships()
 
         printer.show_header(self.show_all())
+
+    def register_relationships(self) -> None:
+        for parent in self._parents:
+            for child in self._children:
+                parent.add_child(child)
+                child.add_parent(parent)
+
+                for sibling in self._children:
+                    sibling.add_sibling(child)
+                    child.add_sibling(sibling)
 
     @property
     def all_members(self) -> list[T_Character]:
@@ -31,17 +41,7 @@ class Family(Generic[T_Character]):
         joined_names = ',\n'.join(names)
         return f'Family conains of:\n{joined_names}'
 
-    def _register_relationships(self) -> None:
-        for parent in self._parents:
-            for child in self._children:
-                parent.add_child(child)
-                child.add_parent(parent)
-
-                for sibling in self._children:
-                    sibling.add_sibling(child)
-                    child.add_sibling(sibling)
-
-    def have_group_sex(self) -> None:
+    def start_group_sex(self) -> None:
         for dominant in self.all_members:
             for submissive in self.all_members:
                 try:
