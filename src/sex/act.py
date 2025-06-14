@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, NamedTuple
 
-from ..errors import NoSexParticipants
+from ..errors import NoSexParticipantsError
 from ..printer import printer
 
 if TYPE_CHECKING:
@@ -15,7 +15,7 @@ class SexualActResult(NamedTuple):
 class SexualAct:
     def __init__(self, *participants: 'Character'):
         if not participants:
-            raise NoSexParticipants()
+            raise NoSexParticipantsError()
 
         self._participants = list(participants)
 

@@ -6,7 +6,11 @@ if TYPE_CHECKING:
     from .characters import Character
 
 
-class SexForbidden(Exception):
+class LocalError(Exception):
+    """Root for custom exceptions"""
+
+
+class SexForbiddenError(LocalError):
     _type: str = 'some'
 
     def __init__(self, initiator: 'Character', responder: 'Character'):
@@ -16,27 +20,27 @@ class SexForbidden(Exception):
         )
 
 
-class OrientationMismatch(SexForbidden):
+class OrientationMismatchError(SexForbiddenError):
     _type: str = 'orientation'
 
 
-class IncestForbidden(SexForbidden):
-    _type: str = 'incest'
-
-
-class PaedophiliaProhibited(SexForbidden):
+class PaedophiliaProhibitedError(SexForbiddenError):
     _type: str = 'paedophilia'
 
 
-class InterspeciesSexProhibited(SexForbidden):
+class IncestForbiddenError(SexForbiddenError):
+    _type: str = 'incest'
+
+
+class InterspeciesSexForbiddenError(SexForbiddenError):
     _type: str = 'interspecies sex'
 
 
-class EmptyFamily(Exception):
+class EmptyFamilyError(LocalError):
     def __init__(self) -> None:
         printer.show_error('Family can be created only with at least one memeber, provided empty parents and children')
 
 
-class NoSexParticipants(Exception):
+class NoSexParticipantsError(LocalError):
     def __init__(self) -> None:
         printer.show_error('Sex can not be started without participants...')

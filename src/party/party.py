@@ -1,5 +1,11 @@
 from ..characters import Character
-from ..errors import IncestForbidden, InterspeciesSexProhibited, OrientationMismatch, PaedophiliaProhibited, SexForbidden
+from ..errors import (
+    IncestForbiddenError,
+    InterspeciesSexForbiddenError,
+    OrientationMismatchError,
+    PaedophiliaProhibitedError,
+    SexForbiddenError,
+)
 from ..family import Family
 from ..printer import printer
 from .stats import Stats
@@ -25,15 +31,15 @@ class SwingerParty:
             for submissive in self._participants:
                 try:
                     self._have_sex(dominant, submissive)
-                except IncestForbidden:
+                except IncestForbiddenError:
                     self._stats.incest_refused_attempts += 1
-                except PaedophiliaProhibited:
+                except PaedophiliaProhibitedError:
                     self._stats.paedophilic_incidents += 1
-                except OrientationMismatch:
+                except OrientationMismatchError:
                     self._stats.homo_refused_attempts += 1
-                except InterspeciesSexProhibited:
+                except InterspeciesSexForbiddenError:
                     self._stats.interspecies_sex_refused_attempts += 1
-                except SexForbidden:
+                except SexForbiddenError:
                     printer.show_error_bolded('Some exotic thing happened')
 
         self._stats.show()

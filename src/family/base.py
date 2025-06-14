@@ -4,7 +4,7 @@ from typing import Generic, Optional
 from src.printer import printer
 
 from ..characters import T_Character
-from ..errors import EmptyFamily
+from ..errors import EmptyFamilyError
 
 
 class Family(ABC, Generic[T_Character]):
@@ -14,7 +14,7 @@ class Family(ABC, Generic[T_Character]):
         children: Optional[list[T_Character]] = None,
     ):
         if not parents and not children:
-            raise EmptyFamily()
+            raise EmptyFamilyError()
 
         self._parents = parents or []
         self._children = children or []

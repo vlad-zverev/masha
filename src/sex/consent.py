@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from ..errors import IncestForbidden, InterspeciesSexProhibited, OrientationMismatch, PaedophiliaProhibited
+from ..errors import IncestForbiddenError, InterspeciesSexForbiddenError, OrientationMismatchError, PaedophiliaProhibitedError
 from ..sex.profile import IncestTolerance
 
 if TYPE_CHECKING:
@@ -26,20 +26,20 @@ class SexualConsentChecker:
     def _check_orientation(self) -> None:
         if self._initiator.profile.sex == self._responder.profile.sex:
             if self._initiator.is_hetero or self._responder.is_hetero:
-                raise OrientationMismatch(self._initiator, self._responder)
+                raise OrientationMismatchError(self._initiator, self._responder)
 
     def _check_paedophilia(self) -> None:
         if self._initiator.is_infant or self._responder.is_infant:
-            raise PaedophiliaProhibited(self._initiator, self._responder)
+            raise PaedophiliaProhibitedError(self._initiator, self._responder)
 
     def _check_interspecies(self) -> None:
         if self._initiator.__class__ != self._responder.__class__:
             if not self._initiator.profile.interspecies_allowed or not self._responder.profile.interspecies_allowed:
-                raise InterspeciesSexProhibited(self._initiator, self._responder)
+                raise InterspeciesSexForbiddenError(self._initiator, self._responder)
 
     def _check_incest(self) -> None:
         if self._initiator.is_infant or self._responder.is_infant:
-            raise PaedophiliaProhibited(self._initiator, self._responder)
+            raise PaedophiliaProhibitedError(self._initiator, self._responder)
 
         if self._initiator in self._responder.family_members:
             accepted_tolerance: tuple[IncestTolerance, ...]
@@ -54,4 +54,4 @@ class SexualConsentChecker:
                 self._initiator.profile.incest_tolerance not in accepted_tolerance
                 or self._responder.profile.incest_tolerance not in accepted_tolerance
             ):
-                raise IncestForbidden(self._initiator, self._responder)
+                raise IncestForbiddenError(self._initiator, self._responder)
