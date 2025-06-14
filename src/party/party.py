@@ -54,8 +54,8 @@ class SwingerParty:
 
         self._stats.show()
 
-    def _have_sex(self, dominant: 'Character', submissive: 'Character') -> None:
-        match dominant.have_sex_with(submissive):
+    def _have_sex(self, initiator: 'Character', responder: 'Character') -> None:
+        match initiator.have_sex_with(responder):
             case SexualActResult.Masturbation:
                 self._stats.masturbations += 1
             case SexualActResult.Coitus:

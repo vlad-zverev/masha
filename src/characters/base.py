@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar
 
+from ..relationships import Relationships, RelationshipsIndicators
 from ..sex.act import SexualAct, SexualActResult
 from ..sex.consent import SexualConsentChecker
 from ..sex.profile import SexualOrientation, SexualProfile
@@ -20,6 +21,8 @@ class Character(ABC):
         self._age = age
         self._weight = weight
         self._profile = profile
+
+        self._relationships = Relationships(self)
 
         self._children: set[Character] = set()
         self._parents: set[Character] = set()
@@ -68,12 +71,20 @@ class Character(ABC):
     def add_sibling(self, sibling: 'Character') -> None:
         self._siblings.add(sibling)
 
+    def get_relationship_indicators(self, character: 'Character') -> RelationshipsIndicators:
+        return self._relationships.get_indicators(character)
+
+    def masturbate(self) -> None:
+        self.have_sex_with(self)
+
     def have_sex_with(self, character: 'Character') -> SexualActResult:
         consent_checker = SexualConsentChecker(self, character)
         consent_checker.validate_sex_initiative()
 
         sexual_act = SexualAct(self, character)
-        return sexual_act.start()
+        act_result = sexual_act.start()
 
-    def masturbate(self) -> None:
-        self.have_sex_with(self)
+        self.get_relationship_indicators(character).rating += 10
+        character.get_relationship_indicators(self).rating += 10
+
+        return act_result
