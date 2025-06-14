@@ -38,9 +38,6 @@ class SexualConsentChecker:
                 raise InterspeciesSexForbiddenError(self._initiator, self._responder)
 
     def _check_incest(self) -> None:
-        if self._initiator.is_infant or self._responder.is_infant:
-            raise PaedophiliaProhibitedError(self._initiator, self._responder)
-
         if self._initiator in self._responder.family_members:
             accepted_tolerance: tuple[IncestTolerance, ...]
 

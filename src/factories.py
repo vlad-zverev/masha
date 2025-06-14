@@ -25,3 +25,15 @@ def create_humans_family() -> HumansFamily:
             Human('Margaret', 38, 66, DEFAULT_FEMALE),
         ],
     )
+
+
+def create_other_humans_family() -> HumansFamily:
+    return HumansFamily(
+        parents=[
+            Human('Max', 40, 70, INCEST_FULL_TOLERANT_BI_MALE),
+            Human('Alla', 38, 66, DEFAULT_FEMALE),
+        ],
+        children=[
+            Human('Egor', 16, 60, INCEST_FULL_TOLERANT_BI_MALE),
+        ],
+    )
