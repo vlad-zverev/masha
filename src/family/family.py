@@ -40,11 +40,3 @@ class Family(Generic[T_Character]):
         names = [str(member) for member in self.all_members]
         joined_names = ',\n'.join(names)
         return f'Family conains of:\n{joined_names}'
-
-    def start_group_sex(self) -> None:
-        for dominant in self.all_members:
-            for submissive in self.all_members:
-                try:
-                    dominant.have_sex_with(submissive)
-                except SexForbidden:
-                    printer.show_error_bolded('Police have been called')
