@@ -19,7 +19,7 @@ class Printer:
 
     def show_header(self, text: str) -> None:
         underline = f'{"_" * 50}'
-        self.show(Color.HEADER, f'{underline}\n{text}\n{underline}')
+        self.show(Color.HEADER, f'{underline}\n{text}\n{underline}\n')
 
     def show_error(self, text: str) -> None:
         self.show(Color.FAIL, text)

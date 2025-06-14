@@ -31,14 +31,14 @@ class SwingerParty:
             for submissive in self._participants:
                 try:
                     self._have_sex(dominant, submissive)
-                except IncestForbiddenError:
-                    self._stats.incest_refused_attempts += 1
-                except PaedophiliaProhibitedError:
-                    self._stats.paedophilic_incidents += 1
                 except OrientationMismatchError:
                     self._stats.homo_refused_attempts += 1
+                except IncestForbiddenError:
+                    self._stats.incest_refused_attempts += 1
                 except InterspeciesSexForbiddenError:
                     self._stats.interspecies_sex_refused_attempts += 1
+                except PaedophiliaProhibitedError:
+                    self._stats.paedophilic_incidents += 1
                 except SexForbiddenError:
                     printer.show_error_bolded('Some exotic thing happened')
 

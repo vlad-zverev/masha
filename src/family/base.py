@@ -45,5 +45,5 @@ class Family(ABC, Generic[T_Character]):
 
     def show_all(self) -> str:
         names = [str(member) for member in self.all_members]
-        joined_names = ',\n'.join(names)
+        joined_names = '\n'.join(names)
         return f'Family contains of:\n\n{joined_names}'
