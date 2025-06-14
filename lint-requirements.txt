@@ -1,0 +1,22 @@
+# the main flake8 lib with a lot of extensions inside:
+wemake-python-styleguide==0.18.0
+# + for isort
+black==23.3.0
+# other small extensions:
+flake8-async==22.11.14
+flake8-newspaper-style==0.4.3
+flake8-multiline-containers==0.0.19
+flake8-return==1.2.0
+flake8-logging-format==0.9.0
+tryceratops==1.1.0
+flake8-print==5.0.0
+flake8-use-fstring==1.4
+flake8-builtins==2.1.0
+flake8-functions-names==0.4.0
+flake8-variables-names==0.0.5
+flake8-expression-complexity==0.0.11
+flake8-functions==0.0.7
+flake8-comments==0.1.2
+flake8-type-checking==2.3.1  # newer versions not compatible
+flake8-annotations==2.9.1  # newer versions not compatible
+flake8-cognitive-complexity==0.1.0

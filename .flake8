@@ -1,0 +1,133 @@
+[flake8]
+max-complexity = 9
+max-line-length = 140
+max-line-complexity = 23
+max-function-length = 50
+max-cognitive-complexity = 15
+max-expression-complexity = 10
+max-parameters-amount = 12
+max-local-variables = 25
+max-module-members = 10
+max-methods = 30
+max-cognitive-average = 10
+max-returns = 7
+max-expressions = 15
+max-imports = 25
+max-awaits = 10
+max-raises = 5
+max-asserts = 10
+max-access-level = 7
+max-name-length = 50
+
+exclude = venv/**
+
+extend-ignore =
+    WPS332
+    WPS306
+    WPS602
+    WPS605
+    WPS430
+    WPS323
+    WPS305
+    D210
+    D400
+    D100
+    G004
+    PIE803
+    ANN101
+    ANN204
+    D107
+    D101
+    D103
+    D102
+    D105
+    D104
+    WPS412
+    WPS211
+    TC400
+    ANN001
+    DAR101
+    WPS360
+    WPS601
+    TC003
+    WPS237
+    WPS300
+    WPS226
+    WPS227
+    WPS410
+    DUO102
+    S311
+    WPS348
+    WPS234
+    I001
+    WPS235
+    I005
+    WPS609
+    WPS231
+    R504
+    CFQ004
+    WPS337
+    TC200
+    WPS407
+    A003
+    FNE002
+    N813
+    WPS529
+    I004
+    I003
+    WPS324
+    ANN102
+    PIE798
+    WPS303
+    WPS115
+    WPS431
+    DAR201
+    DAR401
+    WPS110
+    D401
+    R503
+    WPS100
+    PIE786
+    WPS326
+    E800
+    WPS504
+    WPS336
+    WPS358
+    SIM908
+    FNE004
+    FNE007
+    WPS230
+    WPS420
+    D106
+    WPS350
+    WPS352
+    E203
+    WPS473
+    WPS600
+    WPS437
+    WPS501
+    WPS457
+    FNE005
+    WPS509
+    WPS526
+    WPS335
+    VNE003
+    NEW100
+    WPS112
+    WPS229
+    WPS421
+    WPS606
+    TC002
+    TC006
+    TC001
+    WPS465
+    F401
+    WPS347
+    WPS436
+    WPS440
+    WPS441
+    D205
+    WPS116
+
+per-file-ignores =
+    **/__init__.py: F401 E402
