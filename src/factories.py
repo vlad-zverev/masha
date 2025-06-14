@@ -1,6 +1,6 @@
-from .characters import Beaver
+from .characters import Beaver, Human
 from .family import Family
-from .sex.profile import DEFAULT_FEMALE, DEFAULT_MALE, INCEST_FULL_TOLERANT_BI_MALE, SexualProfile
+from .sex.profile import DEFAULT_FEMALE, DEFAULT_MALE, INCEST_FULL_TOLERANT_BI_MALE
 
 
 def create_beavers_family() -> Family[Beaver]:
@@ -15,4 +15,13 @@ def create_beavers_family() -> Family[Beaver]:
     return Family[Beaver](
         parents=[papa, mama],
         children=[daughter, son, middle_son, little_son],
+    )
+
+
+def create_humans_family() -> Family[Human]:
+    return Family[Human](
+        parents=[
+            Human('Vadim', 30, 100, DEFAULT_MALE),
+            Human('Margaret', 38, 66, DEFAULT_FEMALE),
+        ],
     )

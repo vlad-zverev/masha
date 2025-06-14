@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import TypeVar
 
 from ..printer import printer
+from ..sex.act import SexualAct, SexualActResult
 from ..sex.consent import consent_checker
 from ..sex.profile import SexualProfile
 
@@ -64,14 +65,12 @@ class Character(ABC):
     def add_sibling(self, sibling: 'Character') -> None:
         self._siblings.add(sibling)
 
-    def have_sex_with(self, character: 'Character') -> None:
+    def have_sex_with(self, character: 'Character') -> SexualActResult:
         consent_checker.validate_sex_initiative(self, character)
 
-        if self == character:
-            printer.show_ok(f'{self._name} successfully masturbated')
-            return
+        sexual_act = SexualAct(self, character)
 
-        printer.show_bold(f'{self._name} successfully fucked {character._name}')
+        return sexual_act.start()
 
     def masturbate(self) -> None:
         self.have_sex_with(self)

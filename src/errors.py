@@ -27,3 +27,8 @@ class PaedophiliaProhibited(SexForbidden):
 class EmptyFamily(Exception):
     def __init__(self) -> None:
         printer.show_error('Family can be created only with at least one memeber, provided empty parents and children')
+
+
+class NoSexParticipants(Exception):
+    def __init__(self) -> None:
+        printer.show_error('Sex can not be started without participants...')

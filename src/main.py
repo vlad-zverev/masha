@@ -1,10 +1,12 @@
-from .factories import create_beavers_family
+from .factories import create_beavers_family, create_humans_family
 from .party import SwingerParty
 
-family = create_beavers_family()
+beavers_family = create_beavers_family()
+humans_family = create_humans_family()
 
 party = SwingerParty()
 
-party.join_family(family)
+party.join_family(beavers_family)
+party.join_family(humans_family)
 
 party.start_group_sex()
