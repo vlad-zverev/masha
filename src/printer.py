@@ -30,6 +30,9 @@ class Printer:
     def show_ok(self, text: str) -> None:
         self.show(Color.OKBLUE, text)
 
+    def show_green(self, text: str) -> None:
+        self.show(Color.OKGREEN, text)
+
     def show_bold(self, text: str) -> None:
         self.show(Color.BOLD, text)
 

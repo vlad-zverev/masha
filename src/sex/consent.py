@@ -1,6 +1,12 @@
 from typing import TYPE_CHECKING
 
-from ..errors import IncestForbiddenError, InterspeciesSexForbiddenError, OrientationMismatchError, PaedophiliaProhibitedError
+from ..errors import (
+    DominanceMismatchError,
+    IncestForbiddenError,
+    InterspeciesSexForbiddenError,
+    OrientationMismatchError,
+    PaedophiliaProhibitedError,
+)
 from ..sex.profile import IncestTolerance
 
 if TYPE_CHECKING:
@@ -15,8 +21,9 @@ class SexualConsentChecker:
     def validate_sex_initiative(self) -> None:
         if self._is_masturbation():
             return
-        self._check_orientation()
         self._check_paedophilia()
+        self._check_orientation()
+        self._check_dominance()
         self._check_interspecies()
         self._check_incest()
 
@@ -27,6 +34,13 @@ class SexualConsentChecker:
         if self._initiator.profile.sex == self._responder.profile.sex:
             if self._initiator.is_hetero or self._responder.is_hetero:
                 raise OrientationMismatchError(self._initiator, self._responder)
+
+    def _check_dominance(self) -> None:
+        if (
+            self._initiator.profile.dominance_level == self._responder.profile.dominance_level
+            and not self._initiator.profile.is_neutral_dominance
+        ):
+            raise DominanceMismatchError(self._initiator, self._responder)
 
     def _check_paedophilia(self) -> None:
         if self._initiator.is_infant or self._responder.is_infant:

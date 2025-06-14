@@ -30,8 +30,8 @@ class SexualProfile(NamedTuple):
     dominance_level: DominanceLevel = DominanceLevel.Neutral
 
     @property
-    def is_dominant(self) -> bool:
-        return self.dominance_level == DominanceLevel.Dominant
+    def is_neutral_dominance(self) -> bool:
+        return self.dominance_level == DominanceLevel.Neutral
 
 
 DEFAULT_MALE = SexualProfile('M', dominance_level=DominanceLevel.Dominant)

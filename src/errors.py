@@ -15,7 +15,7 @@ class SexForbiddenError(LocalError):
 
     def __init__(self, initiator: 'Character', responder: 'Character'):
         printer.show_error(
-            f'{initiator.__class__.__name__} {initiator.name} tried to have sex with {responder.name}, '
+            f'{initiator.__class__.__name__} {initiator.name} tried to have sex with {responder.__class__.__name__} {responder.name}, '
             f'which is not allowed by [{self._type}] restrictions',
         )
 
@@ -24,8 +24,8 @@ class OrientationMismatchError(SexForbiddenError):
     _type: str = 'orientation'
 
 
-class PaedophiliaProhibitedError(SexForbiddenError):
-    _type: str = 'paedophilia'
+class DominanceMismatchError(SexForbiddenError):
+    _type: str = 'dominance level'
 
 
 class IncestForbiddenError(SexForbiddenError):
@@ -34,6 +34,10 @@ class IncestForbiddenError(SexForbiddenError):
 
 class InterspeciesSexForbiddenError(SexForbiddenError):
     _type: str = 'interspecies sex'
+
+
+class PaedophiliaProhibitedError(SexForbiddenError):
+    _type: str = 'paedophilia'
 
 
 class EmptyFamilyError(LocalError):

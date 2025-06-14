@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import TYPE_CHECKING, NamedTuple
 
 from ..errors import NoSexParticipantsError
@@ -7,9 +8,9 @@ if TYPE_CHECKING:
     from ..characters import Character
 
 
-class SexualActResult(NamedTuple):
-    success: bool = True
-    is_masturbation: bool = False
+class SexualActResult(Enum):
+    Masturbation = 0
+    Coitus = 1
 
 
 class SexualAct:
@@ -24,6 +25,10 @@ class SexualAct:
         return len(self._participants) == 1 or self._participants[0] == self._participants[-1]
 
     @property
+    def is_homo(self) -> bool:
+        return self._participants[0].profile.sex == self._participants[-1].profile.sex
+
+    @property
     def initiator(self) -> 'Character':
         return self._participants[0]
 
@@ -36,8 +41,8 @@ class SexualAct:
 
     def start(self) -> SexualActResult:
         if self.is_masturbation:
-            printer.show_ok(f'{self.initiator.name} successfully masturbated')
-            return SexualActResult(is_masturbation=True)
+            printer.show_green(f'{self.initiator.name} successfully masturbated')
+            return SexualActResult.Masturbation
 
-        printer.show_bold(f'{self.initiator.name} successfully fucked with {self.others_repr}')
-        return SexualActResult()
+        printer.show_bold(f'{"[HOMO] " if self.is_homo else ""}{self.initiator.name} successfully fucked with {self.others_repr}')
+        return SexualActResult.Coitus
