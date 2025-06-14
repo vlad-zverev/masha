@@ -1,12 +1,13 @@
+from abc import ABC, abstractmethod
 from typing import Generic, Optional
 
 from src.printer import printer
 
 from ..characters import T_Character
-from ..errors import EmptyFamily, SexForbidden
+from ..errors import EmptyFamily
 
 
-class Family(Generic[T_Character]):
+class Family(ABC, Generic[T_Character]):
     def __init__(
         self,
         parents: Optional[list[T_Character]] = None,
@@ -20,6 +21,7 @@ class Family(Generic[T_Character]):
 
         self.register_relationships()
 
+        printer.show_header(f'New family of {self.plural_pronunciation}')
         printer.show_header(self.show_all())
 
     def register_relationships(self) -> None:
@@ -33,10 +35,15 @@ class Family(Generic[T_Character]):
                     child.add_sibling(sibling)
 
     @property
+    @abstractmethod
+    def plural_pronunciation(self) -> str:
+        pass
+
+    @property
     def all_members(self) -> list[T_Character]:
         return self._parents + self._children
 
     def show_all(self) -> str:
         names = [str(member) for member in self.all_members]
         joined_names = ',\n'.join(names)
-        return f'Family conains of:\n{joined_names}'
+        return f'Family contains of:\n\n{joined_names}'

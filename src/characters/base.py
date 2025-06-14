@@ -3,7 +3,7 @@ from typing import TypeVar
 
 from ..sex.act import SexualAct, SexualActResult
 from ..sex.consent import SexualConsentChecker
-from ..sex.profile import SexualProfile
+from ..sex.profile import SexualOrientation, SexualProfile
 
 T_Character = TypeVar('T_Character', bound='Character')
 
@@ -37,12 +37,16 @@ class Character(ABC):
         return self._profile
 
     @property
-    def family_members(self) -> set['Character']:
-        return self._children.union(self._parents).union(self._siblings)
-
-    @property
     def is_infant(self) -> bool:
         return self._age < self.age_of_consent
+
+    @property
+    def is_hetero(self) -> bool:
+        return self._profile.orientation == SexualOrientation.Hetero
+
+    @property
+    def family_members(self) -> set['Character']:
+        return self._children.union(self._parents).union(self._siblings)
 
     @property
     @abstractmethod

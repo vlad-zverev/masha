@@ -12,8 +12,12 @@ class SexForbidden(Exception):
     def __init__(self, initiator: 'Character', responder: 'Character'):
         printer.show_error(
             f'{initiator.__class__.__name__} {initiator.name} tried to have sex with {responder.name}, '
-            f'which is not allowed by {self._type} restrictions',
+            f'which is not allowed by [{self._type}] restrictions',
         )
+
+
+class OrientationMismatch(SexForbidden):
+    _type: str = 'orientation'
 
 
 class IncestForbidden(SexForbidden):
