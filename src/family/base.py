@@ -21,7 +21,7 @@ class Family(ABC, Generic[T_Character]):
 
         self.register_relationships()
 
-        printer.show_header(f'New family of {self.plural_pronunciation}')
+        printer.show_ok(f'\nNew family of {self.plural_pronunciation}')
         printer.show_header(self.show_all())
 
     def register_relationships(self) -> None:

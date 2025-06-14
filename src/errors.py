@@ -28,6 +28,10 @@ class PaedophiliaProhibited(SexForbidden):
     _type: str = 'paedophilia'
 
 
+class InterspeciesSexProhibited(SexForbidden):
+    _type: str = 'interspecies sex'
+
+
 class EmptyFamily(Exception):
     def __init__(self) -> None:
         printer.show_error('Family can be created only with at least one memeber, provided empty parents and children')

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from ..errors import IncestForbidden, OrientationMismatch, PaedophiliaProhibited
+from ..errors import IncestForbidden, InterspeciesSexProhibited, OrientationMismatch, PaedophiliaProhibited
 from ..sex.profile import IncestTolerance
 
 if TYPE_CHECKING:
@@ -17,6 +17,7 @@ class SexualConsentChecker:
             return
         self._check_orientation()
         self._check_paedophilia()
+        self._check_interspecies()
         self._check_incest()
 
     def _is_masturbation(self) -> bool:
@@ -30,6 +31,11 @@ class SexualConsentChecker:
     def _check_paedophilia(self) -> None:
         if self._initiator.is_infant or self._responder.is_infant:
             raise PaedophiliaProhibited(self._initiator, self._responder)
+
+    def _check_interspecies(self) -> None:
+        if self._initiator.__class__ != self._responder.__class__:
+            if not self._initiator.profile.interspecies_allowed or not self._responder.profile.interspecies_allowed:
+                raise InterspeciesSexProhibited(self._initiator, self._responder)
 
     def _check_incest(self) -> None:
         if self._initiator.is_infant or self._responder.is_infant:

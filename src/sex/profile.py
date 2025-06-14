@@ -20,6 +20,7 @@ class SexualProfile(NamedTuple):
     sex: Sex
     orientation: SexualOrientation = SexualOrientation.Hetero
     incest_tolerance: IncestTolerance = IncestTolerance.Forbidden
+    interspecies_allowed: bool = False
 
 
 DEFAULT_MALE = SexualProfile('M')

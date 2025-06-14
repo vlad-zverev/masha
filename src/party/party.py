@@ -1,5 +1,5 @@
 from ..characters import Character
-from ..errors import IncestForbidden, OrientationMismatch, PaedophiliaProhibited, SexForbidden
+from ..errors import IncestForbidden, InterspeciesSexProhibited, OrientationMismatch, PaedophiliaProhibited, SexForbidden
 from ..family import Family
 from ..printer import printer
 from .stats import Stats
@@ -20,7 +20,7 @@ class SwingerParty:
     def leave(self, participant: Character) -> None:
         self._participants.remove(participant)
 
-    def start_group_sex(self) -> None:
+    def start_group_sex(self) -> None:  # noqa: CCR001
         for dominant in self._participants:
             for submissive in self._participants:
                 try:
@@ -31,10 +31,12 @@ class SwingerParty:
                     self._stats.paedophilic_incidents += 1
                 except OrientationMismatch:
                     self._stats.homo_refused_attempts += 1
+                except InterspeciesSexProhibited:
+                    self._stats.interspecies_sex_refused_attempts += 1
                 except SexForbidden:
                     printer.show_error_bolded('Some exotic thing happened')
 
-        printer.show_header(str(self._stats))
+        self._stats.show()
 
     def _have_sex(self, dominant: 'Character', submissive: 'Character') -> None:
         sex_result = dominant.have_sex_with(submissive)
