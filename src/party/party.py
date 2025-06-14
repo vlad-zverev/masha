@@ -16,6 +16,10 @@ class SwingerParty:
         self._participants: set[Character] = set()
         self._stats = Stats()
 
+    @property
+    def dominants(self) -> list[Character]:
+        return [participant for participant in self._participants if participant.profile.is_dominant]
+
     def join(self, character: Character) -> None:
         self._participants.add(character)
 
@@ -27,10 +31,15 @@ class SwingerParty:
         self._participants.remove(participant)
 
     def start_group_sex(self) -> None:  # noqa: CCR001
-        for dominant in self._participants:
-            for submissive in self._participants:
+        attempts_tracker: set[tuple[int, ...]] = set()
+
+        for initiator in self._participants:
+            for responder in self._participants:
+                if tuple(sorted((id(initiator), id(responder)))) in attempts_tracker:
+                    printer.show_ok(f'{initiator.name} and {responder.name} already tried to fuck')
+                    continue
                 try:
-                    self._have_sex(dominant, submissive)
+                    self._have_sex(initiator, responder)
                 except OrientationMismatchError:
                     self._stats.homo_refused_attempts += 1
                 except IncestForbiddenError:
@@ -41,6 +50,8 @@ class SwingerParty:
                     self._stats.paedophilic_incidents += 1
                 except SexForbiddenError:
                     printer.show_error_bolded('Some exotic thing happened')
+
+                attempts_tracker.add(tuple(sorted((id(initiator), id(responder)))))
 
         self._stats.show()
 
