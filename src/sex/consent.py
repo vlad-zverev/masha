@@ -8,24 +8,38 @@ if TYPE_CHECKING:
 
 
 class SexualConsentChecker:
-    def validate_sex_initiative(self, initiator: 'Character', responder: 'Character') -> None:
-        if initiator == responder:
+    def __init__(self, initiator: 'Character', responder: 'Character') -> None:
+        self._initiator = initiator
+        self._responder = responder
+
+    def validate_sex_initiative(self) -> None:
+        if self._is_masturbation():
             return
+        self._check_paedophilia()
+        self._check_incest()
 
-        if initiator.is_infant or responder.is_infant:
-            raise PaedophiliaProhibited(initiator, responder)
+    def _is_masturbation(self) -> bool:
+        return self._initiator == self._responder
 
-        if initiator in responder.family_members:
+    def _check_paedophilia(self) -> None:
+        if self._initiator.is_infant or self._responder.is_infant:
+            raise PaedophiliaProhibited(self._initiator, self._responder)
+
+    def _check_incest(self) -> None:
+        if self._initiator.is_infant or self._responder.is_infant:
+            raise PaedophiliaProhibited(self._initiator, self._responder)
+
+        if self._initiator in self._responder.family_members:
             accepted_tolerance: tuple[IncestTolerance, ...]
 
-            if initiator.is_sibling(responder):
+            if self._initiator.is_sibling(self._responder):
                 accepted_tolerance = (IncestTolerance.Allowed, IncestTolerance.OnlySiblings)
 
-            if initiator.is_parent_or_child(responder):
+            if self._initiator.is_parent_or_child(self._responder):
                 accepted_tolerance = (IncestTolerance.Allowed,)
 
-            if initiator.profile.incest_tolerance not in accepted_tolerance or responder.profile.incest_tolerance not in accepted_tolerance:
-                raise IncestForbidden(initiator, responder)
-
-
-consent_checker = SexualConsentChecker()
+            if (
+                self._initiator.profile.incest_tolerance not in accepted_tolerance
+                or self._responder.profile.incest_tolerance not in accepted_tolerance
+            ):
+                raise IncestForbidden(self._initiator, self._responder)

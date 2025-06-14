@@ -130,6 +130,7 @@ extend-ignore =
     WPS116
     FNE001
     WPS432
+    T201
 
 per-file-ignores =
     **/__init__.py: F401 E402
