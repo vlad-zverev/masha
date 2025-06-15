@@ -29,6 +29,9 @@ class Family(ABC, Generic[T_Character]):
                 child.add_parent(parent)
 
                 for sibling in self._children:
+                    if child == sibling:
+                        continue  # noqa: WPS220
+
                     sibling.add_sibling(child)
                     child.add_sibling(sibling)
 
@@ -40,6 +43,10 @@ class Family(ABC, Generic[T_Character]):
     @property
     def all_members(self) -> list[T_Character]:
         return self._parents + self._children
+
+    @property
+    def all_adults(self) -> list[T_Character]:
+        return list(filter(lambda member: member.is_adult, self.all_members))
 
     def show_all(self) -> str:
         names = [str(member) for member in self.all_members]

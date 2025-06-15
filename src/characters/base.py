@@ -43,8 +43,12 @@ class Character(ABC):
         return self._profile
 
     @property
+    def is_adult(self) -> bool:
+        return self._age >= self.age_of_consent
+
+    @property
     def is_infant(self) -> bool:
-        return self._age < self.age_of_consent
+        return not self.is_adult
 
     @property
     def is_hetero(self) -> bool:
@@ -65,17 +69,20 @@ class Character(ABC):
     def is_parent_or_child(self, other: 'Character') -> bool:
         return other in self._parents or other in self._children
 
+    def is_relative(self, other: 'Character') -> bool:
+        return other in self.family_members
+
+    def is_same_species(self, other: 'Character') -> bool:
+        return self.__class__ == other.__class__
+
     def add_child(self, child: 'Character') -> None:
         self._children.add(child)
-        self._relationships.mark_as_part_of_family(child)
 
     def add_parent(self, parent: 'Character') -> None:
         self._parents.add(parent)
-        self._relationships.mark_as_part_of_family(parent)
 
     def add_sibling(self, sibling: 'Character') -> None:
         self._siblings.add(sibling)
-        self._relationships.mark_as_part_of_family(sibling)
 
     def get_relationships_view(self) -> str:
         return self._relationships.get_view()

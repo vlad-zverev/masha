@@ -3,9 +3,9 @@ from typing import TYPE_CHECKING
 from ..utils import SexForbiddenError
 from .act import SexualAct
 from .consent import SexualConsentChecker
-from .consts import DEFAULT_REJECTED_SEX_RESULT, REJECTED_SEX_RELATIONSHIPS_INFLUENCE
+from .consts import DEFAULT_REJECTED_SEX_RESULT
 from .finalization import SexFinalization
-from .types import SexualActResult, SexualActType
+from .types import SexualActResult
 
 if TYPE_CHECKING:
     from ..characters import Character

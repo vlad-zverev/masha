@@ -5,6 +5,5 @@ from .rating import INITIAL_RATING, Rating
 
 @dataclass
 class RelationshipsIndicators:
-    intimate_rating: Rating = INITIAL_RATING
+    attraction_level: Rating = INITIAL_RATING
     had_sex: bool = False
-    part_of_family: bool = False

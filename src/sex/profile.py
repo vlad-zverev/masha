@@ -32,3 +32,6 @@ class SexualProfile(NamedTuple):
     @property
     def is_neutral_dominance(self) -> bool:
         return self.dominance_level == DominanceLevel.Neutral
+
+    def is_matched_dominance_level(self, other: 'SexualProfile') -> bool:
+        return self.dominance_level != other.dominance_level or self.is_neutral_dominance

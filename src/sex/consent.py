@@ -36,10 +36,7 @@ class SexualConsentChecker:
                 raise OrientationMismatchError(self._initiator, self._recipient)
 
     def _check_dominance(self) -> None:
-        if (
-            self._initiator.profile.dominance_level == self._recipient.profile.dominance_level
-            and not self._initiator.profile.is_neutral_dominance
-        ):
+        if not self._initiator.profile.is_matched_dominance_level(self._recipient.profile):
             raise DominanceMismatchError(self._initiator, self._recipient)
 
     def _check_paedophilia(self) -> None:
@@ -47,12 +44,12 @@ class SexualConsentChecker:
             raise PaedophiliaProhibitedError(self._initiator, self._recipient)
 
     def _check_interspecies(self) -> None:
-        if self._initiator.__class__ != self._recipient.__class__:
+        if self._initiator.is_same_species(self._recipient):
             if not self._initiator.profile.interspecies_allowed or not self._recipient.profile.interspecies_allowed:
                 raise InterspeciesSexForbiddenError(self._initiator, self._recipient)
 
     def _check_incest(self) -> None:
-        if self._initiator in self._recipient.family_members:
+        if self._initiator.is_relative(self._recipient):
             accepted_tolerance: tuple[IncestTolerance, ...]
 
             if self._initiator.is_sibling(self._recipient):

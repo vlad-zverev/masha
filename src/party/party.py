@@ -1,6 +1,6 @@
 from ..characters import Character
 from ..family import Family
-from ..sex.types import SexualActResult, SexualActType
+from ..sex.types import SexualActType
 from ..utils import (
     DominanceMismatchError,
     IncestForbiddenError,
@@ -19,11 +19,15 @@ class SwingerParty:
         self._stats = Stats()
 
     def join(self, character: Character) -> None:
+        if character.is_infant:
+            printer.show_error_bold('Kids not allowed')
+            return
+
         self._participants.add(character)
 
     def join_family(self, family: Family) -> None:
-        for member in family.all_members:
-            self._participants.add(member)
+        for member in family.all_adults:
+            self.join(member)
 
     def leave(self, participant: Character) -> None:
         self._participants.remove(participant)

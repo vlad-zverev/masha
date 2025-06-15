@@ -15,8 +15,8 @@ class SexFinalization:
         initiator_to_recipient_indicators = self._initiator.get_relationship_indicators(self._recipient)
         recipient_to_ititiator_indicators = self._recipient.get_relationship_indicators(self._initiator)
 
-        initiator_to_recipient_indicators.intimate_rating += act_result.relationships_influence
-        recipient_to_ititiator_indicators.intimate_rating += act_result.relationships_influence
+        initiator_to_recipient_indicators.attraction_level += act_result.relationships_influence
+        recipient_to_ititiator_indicators.attraction_level += act_result.relationships_influence
 
         initiator_to_recipient_indicators.had_sex = True
         recipient_to_ititiator_indicators.had_sex = True
