@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar
+from typing import Self, TypeVar
 
 from ..relationships import Relationships, RelationshipsIndicators
 from ..sex.act import SexualActResult
 from ..sex.intimate import IntimateProcess
 from ..sex.profile import SexualOrientation, SexualProfile
+from ..utils.consts import MALE_FIRST_NAMES
 from .registry import registry
 
 T_Character = TypeVar('T_Character', bound='Character')
@@ -44,7 +45,7 @@ class Character(ABC):
 
     @property
     def is_adult(self) -> bool:
-        return self._age >= self.age_of_consent
+        return self._age >= self.age_of_consent()
 
     @property
     def is_infant(self) -> bool:
@@ -58,9 +59,20 @@ class Character(ABC):
     def family_members(self) -> set['Character']:
         return self._children.union(self._parents).union(self._siblings)
 
-    @property
+    @classmethod
+    def create_random(cls) -> Self:
+        from ._randomizer import create_random
+
+        return create_random(cls)
+
+    @classmethod
     @abstractmethod
-    def age_of_consent(self) -> int:
+    def age_of_consent(cls) -> int:
+        pass
+
+    @classmethod
+    @abstractmethod
+    def average_weight(cls) -> int:
         pass
 
     def is_sibling(self, other: 'Character') -> bool:

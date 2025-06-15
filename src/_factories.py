@@ -1,5 +1,6 @@
-from .characters import Beaver, Human
+from .characters import Beaver, Human, registry
 from .family import BeaversFamily, HumansFamily
+from .party import SwingerParty
 from .sex.consts import DEFAULT_FEMALE, DEFAULT_MALE, INCEST_FULL_TOLERANT_BI_MALE
 
 
@@ -37,3 +38,19 @@ def create_other_humans_family() -> HumansFamily:
             Human('Egor', 16, 60, INCEST_FULL_TOLERANT_BI_MALE),
         ],
     )
+
+
+def create_families_and_throw_a_party() -> None:
+    beavers_family = create_beavers_family()
+    humans_family = create_humans_family()
+    other_humans_family = create_other_humans_family()
+
+    party = SwingerParty()
+
+    party.join_family(beavers_family)
+    party.join_family(humans_family)
+    party.join_family(other_humans_family)
+
+    party.start_group_sex()
+
+    registry.show_all_relationships()
