@@ -13,7 +13,5 @@ party.join_family(humans_family)
 party.join_family(other_humans_family)
 
 party.start_group_sex()
-party.start_group_sex()
-party.start_group_sex()
 
 registry.show_all_relationships()

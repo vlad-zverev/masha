@@ -9,6 +9,13 @@ if TYPE_CHECKING:
 
 
 class RelationshipsMap(defaultdict['Character', RelationshipsIndicators]):
-    def __str__(self) -> str:
-        texts = [f'- finds attracting {ch.name} on {rel.intimate_rating}/{MAX_RELATIONSHIPS_RATING}' for ch, rel in self.items()]
+    def get_view(self) -> str:
+        texts: list[str] = []
+
+        for character, indicators in self.items():
+            rating_ratio_repr = f'{indicators.intimate_rating}/{MAX_RELATIONSHIPS_RATING}'
+            family_repr = ' [family]' if indicators.part_of_family else ''
+
+            texts.append(f'- finds attracting {character.name} on {rating_ratio_repr}{family_repr}')
+
         return '\n'.join(texts)
