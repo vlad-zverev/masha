@@ -2,8 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Generic, Optional
 
 from ..characters import T_Character
-from ..utils import EmptyFamilyError
-from ..utils import printer
+from ..utils import EmptyFamilyError, printer
 
 
 class Family(ABC, Generic[T_Character]):

@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import TYPE_CHECKING, NamedTuple
+from typing import TYPE_CHECKING
 
 from ..utils import NoSexParticipantsError, printer
 
