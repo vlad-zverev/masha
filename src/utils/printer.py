@@ -1,40 +1,108 @@
 from enum import Enum
 
 
-class Color(Enum):
+class Formatting(Enum):
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
     FAIL = '\033[91m'
-    ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+    ENDC = '\033[0m'
 
 
 class Printer:
-    def show(self, color: Color, text: str) -> None:
-        print(color.value + text + Color.ENDC.value)
+    def show(
+        self,
+        formatting: Formatting,
+        text: str,
+        bold: bool = False,
+        with_surrounding_underline: bool = False,
+    ) -> None:
+        if bold:
+            text = f'{Formatting.BOLD.value}{text}'
 
-    def show_header(self, text: str) -> None:
-        underline = f'{"_" * 50}'
-        self.show(Color.HEADER, f'{underline}\n{text}\n{underline}\n')
+        if with_surrounding_underline:
+            underline = f'{"_" * 50}'
+            text = f'{underline}\n{text}\n{underline}\n'
 
-    def show_error(self, text: str) -> None:
-        self.show(Color.FAIL, text)
+        print(f'{formatting.value}{text}{Formatting.ENDC.value}')
 
-    def show_error_bolded(self, text: str) -> None:
-        print(Color.FAIL.value + Color.BOLD.value + text + Color.ENDC.value)
+    def show_header(
+        self,
+        text: str,
+        bold: bool = False,
+        with_surrounding_underline: bool = True,
+    ) -> None:
+        self.show(
+            Formatting.HEADER,
+            text,
+            bold,
+            with_surrounding_underline,
+        )
 
-    def show_ok(self, text: str) -> None:
-        self.show(Color.OKBLUE, text)
+    def show_ok_blue(
+        self,
+        text: str,
+        bold: bool = False,
+        with_surrounding_underline: bool = False,
+    ) -> None:
+        self.show(
+            Formatting.OKBLUE,
+            text,
+            bold,
+            with_surrounding_underline,
+        )
 
-    def show_green(self, text: str) -> None:
-        self.show(Color.OKGREEN, text)
+    def show_ok_green(
+        self,
+        text: str,
+        bold: bool = False,
+        with_surrounding_underline: bool = False,
+    ) -> None:
+        self.show(
+            Formatting.OKGREEN,
+            text,
+            bold,
+            with_surrounding_underline,
+        )
 
-    def show_bold(self, text: str) -> None:
-        self.show(Color.BOLD, text)
+    def show_error(
+        self,
+        text: str,
+        bold: bool = False,
+        with_surrounding_underline: bool = False,
+    ) -> None:
+        self.show(
+            Formatting.FAIL,
+            text,
+            bold,
+            with_surrounding_underline,
+        )
+
+    def show_error_bold(
+        self,
+        text: str,
+        with_surrounding_underline: bool = False,
+    ) -> None:
+        self.show_error(
+            text,
+            bold=True,
+            with_surrounding_underline=with_surrounding_underline,
+        )
+
+    def show_bold(
+        self,
+        text: str,
+        with_surrounding_underline: bool = False,
+    ) -> None:
+        self.show(
+            Formatting.BOLD,
+            text,
+            with_surrounding_underline=with_surrounding_underline,
+        )
 
 
 printer = Printer()

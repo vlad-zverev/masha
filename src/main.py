@@ -1,4 +1,5 @@
 from ._factories import create_beavers_family, create_humans_family, create_other_humans_family
+from .characters import registry
 from .party import SwingerParty
 
 beavers_family = create_beavers_family()
@@ -12,3 +13,7 @@ party.join_family(humans_family)
 party.join_family(other_humans_family)
 
 party.start_group_sex()
+party.start_group_sex()
+party.start_group_sex()
+
+registry.show_all_relationships()

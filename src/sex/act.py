@@ -1,15 +1,10 @@
-from enum import Enum
 from typing import TYPE_CHECKING
 
 from ..utils import NoSexParticipantsError, printer
+from .types import SexualActResult, SexualActType
 
 if TYPE_CHECKING:
     from ..characters import Character
-
-
-class SexualActResult(Enum):
-    Masturbation = 0
-    Coitus = 1
 
 
 class SexualAct:
@@ -18,6 +13,7 @@ class SexualAct:
             raise NoSexParticipantsError()
 
         self._participants = list(participants)
+        self._relationships_influence = 10
 
     @property
     def is_masturbation(self) -> bool:
@@ -40,8 +36,8 @@ class SexualAct:
 
     def start(self) -> SexualActResult:
         if self.is_masturbation:
-            printer.show_green(f'{self.initiator.name} successfully masturbated')
-            return SexualActResult.Masturbation
+            printer.show_ok_green(f'{self.initiator.name} successfully masturbated')
+            return SexualActResult(type=SexualActType.Masturbation)
 
         printer.show_bold(f'{"[HOMO] " if self.is_homo else ""}{self.initiator.name} successfully fucked with {self.others_repr}')
-        return SexualActResult.Coitus
+        return SexualActResult(type=SexualActType.Coitus, relationships_influence=self._relationships_influence)

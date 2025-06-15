@@ -1,6 +1,6 @@
 from ..characters import Character
 from ..family import Family
-from ..sex.act import SexualActResult
+from ..sex.types import SexualActResult, SexualActType
 from ..utils import (
     DominanceMismatchError,
     IncestForbiddenError,
@@ -32,11 +32,11 @@ class SwingerParty:
         attempts_tracker: set[tuple[Character, Character]] = set()
 
         for initiator in self._participants:
-            for responder in self._participants:
-                if (responder, initiator) in attempts_tracker:
+            for recipient in self._participants:
+                if (recipient, initiator) in attempts_tracker:
                     continue
                 try:
-                    self._have_sex(initiator, responder)
+                    self._have_sex(initiator, recipient)
                 except OrientationMismatchError:
                     self._stats.homo_refused_attempts += 1
                 except PaedophiliaProhibitedError:
@@ -48,15 +48,18 @@ class SwingerParty:
                 except DominanceMismatchError:
                     self._stats.dominance_mismatch_cases += 1
                 except SexForbiddenError:
-                    printer.show_error_bolded('Some exotic thing happened')
+                    self._stats.exotic_things_occurances += 1
+                    printer.show_error_bold('Some exotic thing happened')
 
-                attempts_tracker.add((initiator, responder))
+                attempts_tracker.add((initiator, recipient))
 
         self._stats.show()
 
-    def _have_sex(self, initiator: 'Character', responder: 'Character') -> None:
-        match initiator.have_sex_with(responder):
-            case SexualActResult.Masturbation:
+    def _have_sex(self, initiator: 'Character', recipient: 'Character') -> None:
+        sex_result = initiator.have_sex_with(recipient)
+
+        match sex_result.type:
+            case SexualActType.Masturbation:
                 self._stats.masturbations += 1
-            case SexualActResult.Coitus:
+            case SexualActType.Coitus:
                 self._stats.coituses += 1

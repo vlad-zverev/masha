@@ -14,9 +14,9 @@ if TYPE_CHECKING:
 
 
 class SexualConsentChecker:
-    def __init__(self, initiator: 'Character', responder: 'Character') -> None:
+    def __init__(self, initiator: 'Character', recipient: 'Character') -> None:
         self._initiator = initiator
-        self._responder = responder
+        self._recipient = recipient
 
     def validate_sex_initiative(self) -> None:
         if self._is_masturbation():
@@ -28,41 +28,41 @@ class SexualConsentChecker:
         self._check_incest()
 
     def _is_masturbation(self) -> bool:
-        return self._initiator == self._responder
+        return self._initiator == self._recipient
 
     def _check_orientation(self) -> None:
-        if self._initiator.profile.sex == self._responder.profile.sex:
-            if self._initiator.is_hetero or self._responder.is_hetero:
-                raise OrientationMismatchError(self._initiator, self._responder)
+        if self._initiator.profile.sex == self._recipient.profile.sex:
+            if self._initiator.is_hetero or self._recipient.is_hetero:
+                raise OrientationMismatchError(self._initiator, self._recipient)
 
     def _check_dominance(self) -> None:
         if (
-            self._initiator.profile.dominance_level == self._responder.profile.dominance_level
+            self._initiator.profile.dominance_level == self._recipient.profile.dominance_level
             and not self._initiator.profile.is_neutral_dominance
         ):
-            raise DominanceMismatchError(self._initiator, self._responder)
+            raise DominanceMismatchError(self._initiator, self._recipient)
 
     def _check_paedophilia(self) -> None:
-        if self._initiator.is_infant or self._responder.is_infant:
-            raise PaedophiliaProhibitedError(self._initiator, self._responder)
+        if self._initiator.is_infant or self._recipient.is_infant:
+            raise PaedophiliaProhibitedError(self._initiator, self._recipient)
 
     def _check_interspecies(self) -> None:
-        if self._initiator.__class__ != self._responder.__class__:
-            if not self._initiator.profile.interspecies_allowed or not self._responder.profile.interspecies_allowed:
-                raise InterspeciesSexForbiddenError(self._initiator, self._responder)
+        if self._initiator.__class__ != self._recipient.__class__:
+            if not self._initiator.profile.interspecies_allowed or not self._recipient.profile.interspecies_allowed:
+                raise InterspeciesSexForbiddenError(self._initiator, self._recipient)
 
     def _check_incest(self) -> None:
-        if self._initiator in self._responder.family_members:
+        if self._initiator in self._recipient.family_members:
             accepted_tolerance: tuple[IncestTolerance, ...]
 
-            if self._initiator.is_sibling(self._responder):
+            if self._initiator.is_sibling(self._recipient):
                 accepted_tolerance = (IncestTolerance.Allowed, IncestTolerance.OnlySiblings)
 
-            if self._initiator.is_parent_or_child(self._responder):
+            if self._initiator.is_parent_or_child(self._recipient):
                 accepted_tolerance = (IncestTolerance.Allowed,)
 
             if (
                 self._initiator.profile.incest_tolerance not in accepted_tolerance
-                or self._responder.profile.incest_tolerance not in accepted_tolerance
+                or self._recipient.profile.incest_tolerance not in accepted_tolerance
             ):
-                raise IncestForbiddenError(self._initiator, self._responder)
+                raise IncestForbiddenError(self._initiator, self._recipient)

@@ -1,6 +1,6 @@
 from .characters import Beaver, Human
 from .family import BeaversFamily, HumansFamily
-from .sex.profile import DEFAULT_FEMALE, DEFAULT_MALE, INCEST_FULL_TOLERANT_BI_MALE
+from .sex.consts import DEFAULT_FEMALE, DEFAULT_MALE, INCEST_FULL_TOLERANT_BI_MALE
 
 
 def create_beavers_family() -> BeaversFamily:

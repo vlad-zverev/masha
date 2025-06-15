@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 
+from .rating import INITIAL_RATING, Rating
+
 
 @dataclass
 class RelationshipsIndicators:
-    rating: int = 0
+    intimate_rating: Rating = INITIAL_RATING
     had_sex: bool = False

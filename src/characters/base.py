@@ -2,9 +2,10 @@ from abc import ABC, abstractmethod
 from typing import TypeVar
 
 from ..relationships import Relationships, RelationshipsIndicators
-from ..sex.act import SexualAct, SexualActResult
-from ..sex.consent import SexualConsentChecker
+from ..sex.act import SexualActResult
+from ..sex.intimate import IntimateProcess
 from ..sex.profile import SexualOrientation, SexualProfile
+from .registry import registry
 
 T_Character = TypeVar('T_Character', bound='Character')
 
@@ -27,6 +28,8 @@ class Character(ABC):
         self._children: set[Character] = set()
         self._parents: set[Character] = set()
         self._siblings: set[Character] = set()
+
+        registry.register(self)
 
     def __str__(self) -> str:
         return f'- {self._name} [{self._profile.sex}] (age: {self._age}, weight: {self._weight})'
@@ -71,6 +74,9 @@ class Character(ABC):
     def add_sibling(self, sibling: 'Character') -> None:
         self._siblings.add(sibling)
 
+    def get_relationships_view(self) -> str:
+        return self._relationships.get_view()
+
     def get_relationship_indicators(self, character: 'Character') -> RelationshipsIndicators:
         return self._relationships.get_indicators(character)
 
@@ -78,13 +84,4 @@ class Character(ABC):
         self.have_sex_with(self)
 
     def have_sex_with(self, character: 'Character') -> SexualActResult:
-        consent_checker = SexualConsentChecker(self, character)
-        consent_checker.validate_sex_initiative()
-
-        sexual_act = SexualAct(self, character)
-        act_result = sexual_act.start()
-
-        self.get_relationship_indicators(character).rating += 10
-        character.get_relationship_indicators(self).rating += 10
-
-        return act_result
+        return IntimateProcess(self, character).start()

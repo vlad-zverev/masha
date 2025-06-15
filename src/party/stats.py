@@ -12,6 +12,7 @@ class Stats:
     interspecies_sex_refused_attempts: int = 0
     incest_refused_attempts: int = 0
     paedophilic_incidents: int = 0
+    exotic_things_occurances: int = 0
 
     def __str__(self) -> str:
         return (
@@ -21,7 +22,8 @@ class Stats:
             f'Dominance mismatch cases: {self.dominance_mismatch_cases}\n'
             f'Interspecies sex refused attempts: {self.interspecies_sex_refused_attempts}\n'
             f'Incest refused attempts: {self.incest_refused_attempts}\n'
-            f'Paedophilic incidents: {self.paedophilic_incidents}'
+            f'Paedophilic incidents: {self.paedophilic_incidents}\n'
+            f'Exotic things occurances: {self.exotic_things_occurances}'
         )
 
     def show(self) -> None:

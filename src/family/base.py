@@ -17,12 +17,12 @@ class Family(ABC, Generic[T_Character]):
         self._parents = parents or []
         self._children = children or []
 
-        self.register_relationships()
+        self.register_family_ties()
 
-        printer.show_ok(f'\nNew family of {self.plural_pronunciation}')
+        printer.show_ok_blue(f'\nNew family of {self.plural_pronunciation}')
         printer.show_header(self.show_all())
 
-    def register_relationships(self) -> None:
+    def register_family_ties(self) -> None:
         for parent in self._parents:
             for child in self._children:
                 parent.add_child(child)

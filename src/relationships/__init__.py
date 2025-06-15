@@ -1,2 +1,2 @@
 from .indicators import RelationshipsIndicators
-from .relationship import Relationships
+from .relationships import Relationships
