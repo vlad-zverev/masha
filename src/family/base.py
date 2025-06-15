@@ -1,10 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Generic, Optional
 
-from src.printer import printer
-
 from ..characters import T_Character
-from ..errors import EmptyFamilyError
+from ..utils import EmptyFamilyError
+from ..utils import printer
 
 
 class Family(ABC, Generic[T_Character]):

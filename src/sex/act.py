@@ -1,8 +1,7 @@
 from enum import Enum
 from typing import TYPE_CHECKING, NamedTuple
 
-from ..errors import NoSexParticipantsError
-from ..printer import printer
+from ..utils import NoSexParticipantsError, printer
 
 if TYPE_CHECKING:
     from ..characters import Character

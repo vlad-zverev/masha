@@ -1,4 +1,4 @@
-from .factories import create_beavers_family, create_humans_family, create_other_humans_family
+from ._factories import create_beavers_family, create_humans_family, create_other_humans_family
 from .party import SwingerParty
 
 beavers_family = create_beavers_family()

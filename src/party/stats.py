@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from ..printer import printer
+from ..utils import printer
 
 
 @dataclass

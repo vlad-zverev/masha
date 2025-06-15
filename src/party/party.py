@@ -1,15 +1,15 @@
 from ..characters import Character
-from ..errors import (
+from ..family import Family
+from ..sex.act import SexualActResult
+from ..utils import (
     DominanceMismatchError,
     IncestForbiddenError,
     InterspeciesSexForbiddenError,
     OrientationMismatchError,
     PaedophiliaProhibitedError,
     SexForbiddenError,
+    printer,
 )
-from ..family import Family
-from ..printer import printer
-from ..sex.act import SexualActResult
 from .stats import Stats
 
 

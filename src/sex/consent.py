@@ -1,13 +1,13 @@
 from typing import TYPE_CHECKING
 
-from ..errors import (
+from ..sex.profile import IncestTolerance
+from ..utils import (
     DominanceMismatchError,
     IncestForbiddenError,
     InterspeciesSexForbiddenError,
     OrientationMismatchError,
     PaedophiliaProhibitedError,
 )
-from ..sex.profile import IncestTolerance
 
 if TYPE_CHECKING:
     from ..characters import Character

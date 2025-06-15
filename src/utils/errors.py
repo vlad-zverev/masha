@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from .printer import printer
 
 if TYPE_CHECKING:
-    from .characters import Character
+    from ..characters import Character
 
 
 class LocalError(Exception):
