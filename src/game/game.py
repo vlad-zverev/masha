@@ -1,13 +1,11 @@
-import random
-
 import pygame
 
+from .behavior import CharactersBehavior
 from .characters import MaterializedCharacter
 from .events import EventsHandler, MappedEvent
 from .loader import LoadedImages
 from .spawn import Spawner
 from .surfaces import CharacterImagesBinder, Screen
-from .utils import check_in_area
 
 
 class Game:
@@ -24,6 +22,7 @@ class Game:
         self._characters: list[MaterializedCharacter] = []
 
         self._spawner = Spawner(self._characters)
+        self._behavior = CharactersBehavior(self._characters)
         self._events_handler = EventsHandler(self._spawner)
 
         CharacterImagesBinder(images).bind_images_to_characters_classes()
@@ -33,12 +32,7 @@ class Game:
 
         self._events_handler.handle_events(events)
 
-        for character in self._characters:
-            if character.is_under_mouse():
-                character.shake()
-                character.defend()
-            else:
-                character.think()
+        self._behavior.behave()
 
         self._screen.show_characters(*self._characters)
 

@@ -1,11 +1,10 @@
 import pygame
 
-from ..utils import printer
 from .events import EventsMapper
 from .exceptions import Exit
 from .game import Game
 from .loader import Loader
-from .surfaces import CharacterImagesBinder, Screen
+from .surfaces import Screen
 from .types.consts import FPS, MAX_COORDINATES
 
 
