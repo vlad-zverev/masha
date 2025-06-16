@@ -15,9 +15,6 @@ class EventsMapper:
         for event in events:
             printer.show_ok_blue(str(event))
 
-            if self._is_exit(event):
-                raise Exit
-
             if handled_event := self._map_event(event):
                 mapped_events.append(handled_event)
 
@@ -25,8 +22,16 @@ class EventsMapper:
 
     def _map_event(self, event: Event) -> Optional[MappedEvent]:
         match event.type:
+            case pygame.QUIT:
+                raise Exit
             case pygame.KEYDOWN:
-                return MappedEvent.SpawnRandom
+                return self._map_key_down(event)
+            case pygame.MOUSEBUTTONDOWN:
+                return MappedEvent.MouseClicked
 
-    def _is_exit(self, event: Event) -> bool:
-        return event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.dict['key'] == pygame.K_ESCAPE
+    def _map_key_down(self, event: Event) -> Optional[MappedEvent]:
+        match event.dict['key']:
+            case pygame.K_ESCAPE:
+                raise Exit
+            case _:
+                return MappedEvent.SpawnRandom

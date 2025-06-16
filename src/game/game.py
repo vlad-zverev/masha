@@ -23,7 +23,7 @@ class Game:
 
         self._spawner = Spawner(self._characters)
         self._behavior = CharactersBehavior(self._characters)
-        self._events_handler = EventsHandler(self._spawner)
+        self._events_handler = EventsHandler(self._characters, self._spawner)
 
         CharacterImagesBinder(images).bind_images_to_characters_classes()
 

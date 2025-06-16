@@ -7,7 +7,10 @@ class CharactersBehavior:
 
     def behave(self) -> None:
         for character in self._characters:
-            if character.is_under_mouse():
+            if character.clicked:
+                character.shake()
+                character.attack()
+            elif character.is_under_mouse():
                 character.shake()
                 character.defend()
             else:

@@ -27,6 +27,7 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
     ):
         self._character = character
         self._coordinates = coordinates
+        self._clicked = False
 
         self._image = self._images.thinking
 
@@ -50,6 +51,10 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
     @property
     def image(self) -> Surface:
         return self._image
+
+    @property
+    def clicked(self) -> bool:
+        return self._clicked
 
     def get_area(self) -> Area:
         return Area(self.get_pos(), self.get_size())
@@ -78,6 +83,9 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
     def shake(self) -> None:
         current_x, current_y = self.get_pos()
         self.move_to((current_x + random.choice([-1, 1]), current_y + random.choice([-1, 1])))
+
+    def click(self) -> None:
+        self._clicked = True
 
     def is_under_mouse(self) -> bool:
         return check_in_area(
