@@ -37,9 +37,14 @@ class Game:
 
         self._behavior.behave()
 
-        self._screen.show_characters(*self._characters)
+        visibles = self._filter_visible_characters()
 
-        self._screen.show_texts(*self._characters)
+        self._screen.show_characters(*visibles)
+
+        self._screen.show_texts(*visibles)
 
     def _set_background(self) -> None:
         self._screen.set_background(self._images.forest)
+
+    def _filter_visible_characters(self) -> list[MaterializedCharacter]:
+        return list(filter(lambda character: not character.hidden, self._characters))

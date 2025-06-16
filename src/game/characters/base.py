@@ -1,6 +1,6 @@
 import random
 from abc import ABC, abstractmethod
-from typing import Generic, Self
+from typing import Generic, Optional, Self
 
 import pygame
 from pygame.color import Color
@@ -9,7 +9,7 @@ from pygame.surface import Surface
 from ...characters import Character, T_Character
 from ..surfaces import CharacterImages, T_CharacterImages
 from ..types import Area, Coordinates
-from ..types.consts import MIN_COORDINATES
+from ..types.consts import DYING_DURATION_MS, MIN_COORDINATES
 from ..utils import check_in_area
 from ..utils.randomizer import get_random_color, get_random_coordinates
 
@@ -28,7 +28,10 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
     ):
         self._character = character
         self._coordinates = coordinates
+
+        self._clicked_at: Optional[int] = None
         self._clicked = False
+        self._hidden = False
 
         self._image = self._images.thinking
 
@@ -62,10 +65,14 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
         return self._clicked
 
     @property
+    def hidden(self) -> bool:
+        return self._hidden
+
+    @property
     def name_color(self) -> Color:
         if self._clicked:
             return get_random_color()
-        return Color(255, 255, 255, 0)
+        return Color(255, 255, 255)
 
     def get_area(self) -> Area:
         return Area(self.get_pos(), self.get_size())
@@ -82,6 +89,9 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
     def move_to_random(self) -> None:
         self._coordinates = get_random_coordinates()
 
+    def hide(self) -> None:
+        self._hidden = True
+
     def think(self) -> None:
         self._change_image(self._images.thinking)
 
@@ -97,6 +107,12 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
 
     def click(self) -> None:
         self._clicked = True
+        self._clicked_at = pygame.time.get_ticks()
+
+    def is_need_to_hide(self) -> bool:
+        if self._clicked_at:
+            return pygame.time.get_ticks() - self._clicked_at > DYING_DURATION_MS
+        return False
 
     def is_under_mouse(self) -> bool:
         return check_in_area(

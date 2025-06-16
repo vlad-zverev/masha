@@ -7,7 +7,9 @@ class CharactersBehavior:
 
     def behave(self) -> None:
         for character in self._characters:
-            if character.clicked:
+            if character.is_need_to_hide():
+                character.hide()
+            elif character.clicked:
                 character.shake()
                 character.attack()
             elif character.is_under_mouse():
