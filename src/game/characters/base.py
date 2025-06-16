@@ -3,14 +3,15 @@ from abc import ABC, abstractmethod
 from typing import Generic, Self
 
 import pygame
+from pygame.color import Color
 from pygame.surface import Surface
 
-from ...characters import T_Character
-from ..surfaces import T_CharacterImages
+from ...characters import Character, T_Character
+from ..surfaces import CharacterImages, T_CharacterImages
 from ..types import Area, Coordinates
 from ..types.consts import MIN_COORDINATES
 from ..utils import check_in_area
-from ..utils.randomizer import get_random_coordinates
+from ..utils.randomizer import get_random_color, get_random_coordinates
 
 
 class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
@@ -36,6 +37,10 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
     def character_soul_class(cls) -> type[T_Character]:
         pass
 
+    @property
+    def soul(self) -> T_Character:
+        return self._character
+
     @classmethod
     def from_random_soul(cls) -> Self:
         return cls(cls.character_soul_class().create_random())
@@ -55,6 +60,12 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
     @property
     def clicked(self) -> bool:
         return self._clicked
+
+    @property
+    def name_color(self) -> Color:
+        if self._clicked:
+            return get_random_color()
+        return Color(255, 255, 255, 0)
 
     def get_area(self) -> Area:
         return Area(self.get_pos(), self.get_size())
@@ -95,3 +106,6 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
 
     def _change_image(self, image: Surface) -> None:
         self._image = image
+
+
+MaterializedCharacterType = MaterializedCharacter[Character, CharacterImages]

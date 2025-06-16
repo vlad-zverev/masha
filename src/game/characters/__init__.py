@@ -1,2 +1,2 @@
-from .base import MaterializedCharacter
+from .base import MaterializedCharacter, MaterializedCharacterType
 from .beaver import MaterializedBeaver

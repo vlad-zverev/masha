@@ -1,10 +1,12 @@
 import pygame
+from pygame.font import Font
 
 from .events import EventsMapper
 from .exceptions import Exit
 from .game import Game
 from .loader import Loader
 from .surfaces import Screen
+from .text import TextRenderer
 from .types.consts import FPS, MAX_COORDINATES
 
 
@@ -13,11 +15,14 @@ class GameRunner:
         self,
         screen_size: tuple[int, int] = MAX_COORDINATES,
     ) -> None:
+        self._running = False
+
         pygame.init()
 
         self._clock = pygame.time.Clock()
 
-        self._screen = Screen(screen_size)
+        self._text_renderer = TextRenderer()
+        self._screen = Screen(self._text_renderer, screen_size)
         self._loader = Loader()
 
         images = self._loader.load_all()
@@ -30,9 +35,9 @@ class GameRunner:
 
         self._events_mapper = EventsMapper()
 
+    def run(self) -> None:
         self._running = True
 
-    def run(self) -> None:
         while self._running:
             events = pygame.event.get()
 

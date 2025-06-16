@@ -1,5 +1,7 @@
 import random
 
+from pygame.color import Color
+
 from ..types import Coordinates
 from ..types.consts import MAX_COORDINATES, MIN_COORDINATES
 
@@ -15,3 +17,11 @@ def get_random_coordinates(
     rand_y = random.randint(between_from_y, between_to_y)
 
     return rand_x, rand_y
+
+
+def get_random_color() -> Color:
+    return Color(
+        random.randint(0, 255),
+        random.randint(0, 255),
+        random.randint(0, 255),
+    )
