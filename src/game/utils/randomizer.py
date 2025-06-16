@@ -14,6 +14,4 @@ def get_random_coordinates(
     rand_x = random.randint(between_from_x, between_to_x)
     rand_y = random.randint(between_from_y, between_to_y)
 
-    print('OOO', rand_x, rand_y)
-
     return rand_x, rand_y

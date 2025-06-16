@@ -1,6 +1,8 @@
 import pygame
 
 from ..utils import printer
+from .events import EventsMapper
+from .exceptions import Exit
 from .game import Game
 from .loader import Loader
 from .surfaces import CharacterImagesBinder, Screen
@@ -14,9 +16,9 @@ class GameRunner:
     ) -> None:
         pygame.init()
 
-        self._screen = Screen(screen_size)
         self._clock = pygame.time.Clock()
 
+        self._screen = Screen(screen_size)
         self._loader = Loader()
 
         images = self._loader.load_all()
@@ -27,18 +29,21 @@ class GameRunner:
             images=images,
         )
 
+        self._events_mapper = EventsMapper()
+
         self._running = True
 
     def run(self) -> None:
         while self._running:
-            for event in pygame.event.get():
-                printer.show_ok_blue(str(event))
+            events = pygame.event.get()
 
-                if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.dict['key'] == pygame.K_ESCAPE:
-                    self._running = False
-                    break
+            try:
+                mapped_events = self._events_mapper.map_events(events)
+            except Exit:
+                self._running = False
+                break
 
-                self._game.process(event)
+            self._game.process(mapped_events)
 
             pygame.display.flip()
 

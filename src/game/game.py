@@ -1,6 +1,9 @@
+import random
+
 import pygame
 
 from .characters import MaterializedCharacter
+from .events import EventsHandler, MappedEvent
 from .loader import LoadedImages
 from .spawn import Spawner
 from .surfaces import CharacterImagesBinder, Screen
@@ -21,26 +24,23 @@ class Game:
         self._characters: list[MaterializedCharacter] = []
 
         self._spawner = Spawner(self._characters)
+        self._events_handler = EventsHandler(self._spawner)
 
         CharacterImagesBinder(images).bind_images_to_characters_classes()
 
-    def process(self, event: pygame.event.Event) -> None:
+    def process(self, events: list[MappedEvent]) -> None:
         self._set_background()
 
-        if event.type == pygame.KEYDOWN:
-            self._spawner.spawn_random()
-
-        mouse_pos = pygame.mouse.get_pos()
+        self._events_handler.handle_events(events)
 
         for character in self._characters:
-            if check_in_area(mouse_pos, character.get_area()):
-                cur_x, cur_y = character.get_pos()
-                character.move_to((cur_x + 1, cur_y + 1))
+            if character.is_under_mouse():
+                character.shake()
                 character.defend()
             else:
                 character.think()
 
-            self._screen.show_character(character)
+        self._screen.show_characters(*self._characters)
 
     def _set_background(self) -> None:
         self._screen.set_background(self._images.forest)

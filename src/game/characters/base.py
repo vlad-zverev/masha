@@ -2,12 +2,14 @@ import random
 from abc import ABC, abstractmethod
 from typing import Generic, Self
 
+import pygame
 from pygame.surface import Surface
 
 from ...characters import T_Character
 from ..surfaces import T_CharacterImages
 from ..types import Area, Coordinates
 from ..types.consts import MIN_COORDINATES
+from ..utils import check_in_area
 from ..utils.randomizer import get_random_coordinates
 
 
@@ -72,6 +74,16 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
 
     def defend(self) -> None:
         self._change_image(self._images.defending)
+
+    def shake(self) -> None:
+        current_x, current_y = self.get_pos()
+        self.move_to((current_x + random.choice([-1, 1]), current_y + random.choice([-1, 1])))
+
+    def is_under_mouse(self) -> bool:
+        return check_in_area(
+            pygame.mouse.get_pos(),
+            self.get_area(),
+        )
 
     def _change_image(self, image: Surface) -> None:
         self._image = image

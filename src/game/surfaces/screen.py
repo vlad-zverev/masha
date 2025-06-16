@@ -25,8 +25,9 @@ class Screen:
 
         self._screen.blit(image, MIN_COORDINATES)
 
-    def show_character(self, character: 'MaterializedCharacter') -> None:
-        self._screen.blit(
-            character.image,
-            character.get_pos(),
-        )
+    def show_characters(self, *characters: 'MaterializedCharacter') -> None:
+        for character in characters:
+            self._screen.blit(
+                character.image,
+                character.get_pos(),
+            )
