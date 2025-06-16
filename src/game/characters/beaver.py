@@ -1,5 +1,5 @@
 from ...characters import Beaver
-from ..images import BeaverImages
+from ..surfaces import BeaverImages
 from .base import MaterializedCharacter
 
 

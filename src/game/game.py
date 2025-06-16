@@ -1,19 +1,16 @@
 import pygame
 
-from ..characters import Beaver
-from ..sex.consts import DEFAULT_MALE
-from .characters import MaterializedBeaver, MaterializedCharacter
-from .images import CharacterImagesBinder
+from .characters import MaterializedCharacter
 from .loader import LoadedImages
 from .spawn import Spawner
-from .types.consts import MIN_COORDINATES
+from .surfaces import CharacterImagesBinder, Screen
 from .utils import check_in_area
 
 
 class Game:
     def __init__(
         self,
-        screen: pygame.surface.Surface,
+        screen: Screen,
         clock: pygame.time.Clock,
         images: LoadedImages,
     ):
@@ -28,8 +25,7 @@ class Game:
         CharacterImagesBinder(images).bind_images_to_characters_classes()
 
     def process(self, event: pygame.event.Event) -> None:
-        print(event)
-        self._screen.blit(self._images.forest, MIN_COORDINATES)
+        self._set_background()
 
         if event.type == pygame.KEYDOWN:
             self._spawner.spawn_random()
@@ -44,4 +40,7 @@ class Game:
             else:
                 character.think()
 
-            self._screen.blit(character._image, character.get_pos())
+            self._screen.show_character(character)
+
+    def _set_background(self) -> None:
+        self._screen.set_background(self._images.forest)

@@ -5,14 +5,14 @@ from typing import Generic, Self
 from pygame.surface import Surface
 
 from ...characters import T_Character
-from ..images import T_CharacterImages
+from ..surfaces import T_CharacterImages
 from ..types import Area, Coordinates
 from ..types.consts import MIN_COORDINATES
 from ..utils.randomizer import get_random_coordinates
 
 
 class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
-    images: T_CharacterImages
+    _images: T_CharacterImages
     _subclasses: list[type['MaterializedCharacter']] = []
 
     def __init_subclass__(cls) -> None:
@@ -26,7 +26,7 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
         self._character = character
         self._coordinates = coordinates
 
-        self._image = self.images.thinking
+        self._image = self._images.thinking
 
     @classmethod
     @abstractmethod
@@ -43,7 +43,11 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
 
     @classmethod
     def bind_images(cls, images: T_CharacterImages) -> None:
-        cls.images = images
+        cls._images = images
+
+    @property
+    def image(self) -> Surface:
+        return self._image
 
     def get_area(self) -> Area:
         return Area(self.get_pos(), self.get_size())
@@ -61,13 +65,13 @@ class MaterializedCharacter(ABC, Generic[T_Character, T_CharacterImages]):
         self._coordinates = get_random_coordinates()
 
     def think(self) -> None:
-        self._change_image(self.images.thinking)
+        self._change_image(self._images.thinking)
 
     def attack(self) -> None:
-        self._change_image(self.images.attacking)
+        self._change_image(self._images.attacking)
 
     def defend(self) -> None:
-        self._change_image(self.images.defending)
+        self._change_image(self._images.defending)
 
     def _change_image(self, image: Surface) -> None:
         self._image = image
